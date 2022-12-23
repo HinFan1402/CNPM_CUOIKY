@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLYSACHNEWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tCTHD">
+    <Key>
+      <PropertyRef Name="MaHD" />
+      <PropertyRef Name="MaSach" />
+    </Key>
+    <Property Name="MaHD" Type="Int32" Nullable="false" />
+    <Property Name="MaSach" Type="Int32" Nullable="false" />
+    <Property Name="SoLuong" Type="Int32" />
+    <Property Name="GhiChu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tHOADON" Relationship="Self.fk_CTHD_MaHDNhap" FromRole="tCTHD" ToRole="tHOADON" />
+    <NavigationProperty Name="tSACH" Relationship="Self.fk_CTHD_MaSach" FromRole="tCTHD" ToRole="tSACH" />
+  </EntityType>
+  <EntityType Name="tDAILY">
+    <Key>
+      <PropertyRef Name="MaDaiLy" />
+    </Key>
+    <Property Name="MaDaiLy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenDaiLy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="TenChuDaiLy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="Int32" />
+    <NavigationProperty Name="tHOADONs" Relationship="Self.fk_tHOADON_MaDaiLy" FromRole="tDAILY" ToRole="tHOADON" />
+  </EntityType>
+  <EntityType Name="tHOADON">
+    <Key>
+      <PropertyRef Name="MaHD" />
+    </Key>
+    <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaDaiLy" Type="Int32" />
+    <Property Name="NgayLapHoaDon" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tCTHDs" Relationship="Self.fk_CTHD_MaHDNhap" FromRole="tHOADON" ToRole="tCTHD" />
+    <NavigationProperty Name="tDAILY" Relationship="Self.fk_tHOADON_MaDaiLy" FromRole="tHOADON" ToRole="tDAILY" />
+  </EntityType>
+  <EntityType Name="tNHAXUATBAN">
+    <Key>
+      <PropertyRef Name="MaNhaXuatBan" />
+    </Key>
+    <Property Name="MaNhaXuatBan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenNhaXuatBan" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="Int32" />
+    <NavigationProperty Name="tSACHes" Relationship="Self.fk_tSACH_MaNXB" FromRole="tNHAXUATBAN" ToRole="tSACH" />
+  </EntityType>
+  <EntityType Name="tSACH">
+    <Key>
+      <PropertyRef Name="MaSach" />
+    </Key>
+    <Property Name="MaSach" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TenSach" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="TenTacGia" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="GiaBia" Type="Double" />
+    <Property Name="GiaBanChoDaiLy" Type="Double" />
+    <Property Name="MaNhaXuatBan" Type="Int32" />
+    <Property Name="SoTrang" Type="Int32" />
+    <NavigationProperty Name="tCTHDs" Relationship="Self.fk_CTHD_MaSach" FromRole="tSACH" ToRole="tCTHD" />
+    <NavigationProperty Name="tNHAXUATBAN" Relationship="Self.fk_tSACH_MaNXB" FromRole="tSACH" ToRole="tNHAXUATBAN" />
+  </EntityType>
+  <Association Name="fk_CTHD_MaHDNhap">
+    <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="1" />
+    <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tHOADON">
+        <PropertyRef Name="MaHD" />
+      </Principal>
+      <Dependent Role="tCTHD">
+        <PropertyRef Name="MaHD" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_CTHD_MaSach">
+    <End Role="tSACH" Type="Self.tSACH" Multiplicity="1" />
+    <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tSACH">
+        <PropertyRef Name="MaSach" />
+      </Principal>
+      <Dependent Role="tCTHD">
+        <PropertyRef Name="MaSach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tHOADON_MaDaiLy">
+    <End Role="tDAILY" Type="Self.tDAILY" Multiplicity="0..1" />
+    <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tDAILY">
+        <PropertyRef Name="MaDaiLy" />
+      </Principal>
+      <Dependent Role="tHOADON">
+        <PropertyRef Name="MaDaiLy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tSACH_MaNXB">
+    <End Role="tNHAXUATBAN" Type="Self.tNHAXUATBAN" Multiplicity="0..1" />
+    <End Role="tSACH" Type="Self.tSACH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tNHAXUATBAN">
+        <PropertyRef Name="MaNhaXuatBan" />
+      </Principal>
+      <Dependent Role="tSACH">
+        <PropertyRef Name="MaNhaXuatBan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QLYSACHNEWEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tCTHDs" EntityType="Self.tCTHD" />
+    <EntitySet Name="tDAILies" EntityType="Self.tDAILY" />
+    <EntitySet Name="tHOADONs" EntityType="Self.tHOADON" />
+    <EntitySet Name="tNHAXUATBANs" EntityType="Self.tNHAXUATBAN" />
+    <EntitySet Name="tSACHes" EntityType="Self.tSACH" />
+    <AssociationSet Name="fk_CTHD_MaHDNhap" Association="Self.fk_CTHD_MaHDNhap">
+      <End Role="tHOADON" EntitySet="tHOADONs" />
+      <End Role="tCTHD" EntitySet="tCTHDs" />
+    </AssociationSet>
+    <AssociationSet Name="fk_CTHD_MaSach" Association="Self.fk_CTHD_MaSach">
+      <End Role="tSACH" EntitySet="tSACHes" />
+      <End Role="tCTHD" EntitySet="tCTHDs" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tHOADON_MaDaiLy" Association="Self.fk_tHOADON_MaDaiLy">
+      <End Role="tDAILY" EntitySet="tDAILies" />
+      <End Role="tHOADON" EntitySet="tHOADONs" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tSACH_MaNXB" Association="Self.fk_tSACH_MaNXB">
+      <End Role="tNHAXUATBAN" EntitySet="tNHAXUATBANs" />
+      <End Role="tSACH" EntitySet="tSACHes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

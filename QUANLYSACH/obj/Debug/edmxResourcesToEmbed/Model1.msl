@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QLYSACHNEWModelStoreContainer" CdmEntityContainer="QLYSACHNEWEntities">
+    <EntitySetMapping Name="tCTHDs">
+      <EntityTypeMapping TypeName="QLYSACHNEWModel.tCTHD">
+        <MappingFragment StoreEntitySet="tCTHD">
+          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+          <ScalarProperty Name="MaSach" ColumnName="MaSach" />
+          <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+          <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tDAILies">
+      <EntityTypeMapping TypeName="QLYSACHNEWModel.tDAILY">
+        <MappingFragment StoreEntitySet="tDAILY">
+          <ScalarProperty Name="MaDaiLy" ColumnName="MaDaiLy" />
+          <ScalarProperty Name="TenDaiLy" ColumnName="TenDaiLy" />
+          <ScalarProperty Name="TenChuDaiLy" ColumnName="TenChuDaiLy" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tHOADONs">
+      <EntityTypeMapping TypeName="QLYSACHNEWModel.tHOADON">
+        <MappingFragment StoreEntitySet="tHOADON">
+          <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+          <ScalarProperty Name="MaDaiLy" ColumnName="MaDaiLy" />
+          <ScalarProperty Name="NgayLapHoaDon" ColumnName="NgayLapHoaDon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tNHAXUATBANs">
+      <EntityTypeMapping TypeName="QLYSACHNEWModel.tNHAXUATBAN">
+        <MappingFragment StoreEntitySet="tNHAXUATBAN">
+          <ScalarProperty Name="MaNhaXuatBan" ColumnName="MaNhaXuatBan" />
+          <ScalarProperty Name="TenNhaXuatBan" ColumnName="TenNhaXuatBan" />
+          <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tSACHes">
+      <EntityTypeMapping TypeName="QLYSACHNEWModel.tSACH">
+        <MappingFragment StoreEntitySet="tSACH">
+          <ScalarProperty Name="MaSach" ColumnName="MaSach" />
+          <ScalarProperty Name="TenSach" ColumnName="TenSach" />
+          <ScalarProperty Name="TenTacGia" ColumnName="TenTacGia" />
+          <ScalarProperty Name="GiaBia" ColumnName="GiaBia" />
+          <ScalarProperty Name="GiaBanChoDaiLy" ColumnName="GiaBanChoDaiLy" />
+          <ScalarProperty Name="MaNhaXuatBan" ColumnName="MaNhaXuatBan" />
+          <ScalarProperty Name="SoTrang" ColumnName="SoTrang" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

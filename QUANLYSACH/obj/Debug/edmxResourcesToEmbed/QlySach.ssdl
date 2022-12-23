@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLYSACHModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tCTHD">
+    <Key>
+      <PropertyRef Name="MaHD" />
+      <PropertyRef Name="MaSach" />
+    </Key>
+    <Property Name="MaHD" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaSach" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="SoLuong" Type="int" />
+    <Property Name="GhiChu" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tDAILY">
+    <Key>
+      <PropertyRef Name="MaDaiLy" />
+    </Key>
+    <Property Name="MaDaiLy" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenDaiLy" Type="nvarchar" MaxLength="30" />
+    <Property Name="TenChuDaiLy" Type="nvarchar" MaxLength="30" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+    <Property Name="SoDienThoai" Type="int" />
+  </EntityType>
+  <EntityType Name="tHOADON">
+    <Key>
+      <PropertyRef Name="MaHD" />
+    </Key>
+    <Property Name="MaHD" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaDaiLy" Type="varchar" MaxLength="10" />
+    <Property Name="NgayLapHoaDon" Type="date" />
+  </EntityType>
+  <EntityType Name="tNHAXUATBAN">
+    <Key>
+      <PropertyRef Name="MaNhaXuatBan" />
+    </Key>
+    <Property Name="MaNhaXuatBan" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenNhaXuatBan" Type="nvarchar" MaxLength="30" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+    <Property Name="SoDienThoai" Type="int" />
+  </EntityType>
+  <EntityType Name="tSACH">
+    <Key>
+      <PropertyRef Name="MaSach" />
+    </Key>
+    <Property Name="MaSach" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenSach" Type="nvarchar" MaxLength="30" />
+    <Property Name="TenTacGia" Type="nvarchar" MaxLength="30" />
+    <Property Name="GiaBia" Type="float" />
+    <Property Name="GiaBanChoDaiLy" Type="float" />
+    <Property Name="MaNhaXuatBan" Type="varchar" MaxLength="10" />
+    <Property Name="SoTrang" Type="int" />
+  </EntityType>
+  <Association Name="fk_CTHD_MaHDNhap">
+    <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="1" />
+    <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tHOADON">
+        <PropertyRef Name="MaHD" />
+      </Principal>
+      <Dependent Role="tCTHD">
+        <PropertyRef Name="MaHD" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_CTHD_MaSach">
+    <End Role="tSACH" Type="Self.tSACH" Multiplicity="1" />
+    <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tSACH">
+        <PropertyRef Name="MaSach" />
+      </Principal>
+      <Dependent Role="tCTHD">
+        <PropertyRef Name="MaSach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tHOADON_MaDaiLy">
+    <End Role="tDAILY" Type="Self.tDAILY" Multiplicity="0..1" />
+    <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tDAILY">
+        <PropertyRef Name="MaDaiLy" />
+      </Principal>
+      <Dependent Role="tHOADON">
+        <PropertyRef Name="MaDaiLy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_tSACH_MaNXB">
+    <End Role="tNHAXUATBAN" Type="Self.tNHAXUATBAN" Multiplicity="0..1" />
+    <End Role="tSACH" Type="Self.tSACH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tNHAXUATBAN">
+        <PropertyRef Name="MaNhaXuatBan" />
+      </Principal>
+      <Dependent Role="tSACH">
+        <PropertyRef Name="MaNhaXuatBan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="QLYSACHModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tCTHD" EntityType="Self.tCTHD" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tDAILY" EntityType="Self.tDAILY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tHOADON" EntityType="Self.tHOADON" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tNHAXUATBAN" EntityType="Self.tNHAXUATBAN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tSACH" EntityType="Self.tSACH" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_CTHD_MaHDNhap" Association="Self.fk_CTHD_MaHDNhap">
+      <End Role="tHOADON" EntitySet="tHOADON" />
+      <End Role="tCTHD" EntitySet="tCTHD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_CTHD_MaSach" Association="Self.fk_CTHD_MaSach">
+      <End Role="tSACH" EntitySet="tSACH" />
+      <End Role="tCTHD" EntitySet="tCTHD" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tHOADON_MaDaiLy" Association="Self.fk_tHOADON_MaDaiLy">
+      <End Role="tDAILY" EntitySet="tDAILY" />
+      <End Role="tHOADON" EntitySet="tHOADON" />
+    </AssociationSet>
+    <AssociationSet Name="fk_tSACH_MaNXB" Association="Self.fk_tSACH_MaNXB">
+      <End Role="tNHAXUATBAN" EntitySet="tNHAXUATBAN" />
+      <End Role="tSACH" EntitySet="tSACH" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
