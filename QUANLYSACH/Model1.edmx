@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QLYSACHNEWModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tCTHD">
+          <Key>
+            <PropertyRef Name="MaHD" />
+            <PropertyRef Name="MaSach" />
+          </Key>
+          <Property Name="MaHD" Type="int" Nullable="false" />
+          <Property Name="MaSach" Type="int" Nullable="false" />
+          <Property Name="SoLuong" Type="int" />
+          <Property Name="GhiChu" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tDAILY">
+          <Key>
+            <PropertyRef Name="MaDaiLy" />
+          </Key>
+          <Property Name="MaDaiLy" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenDaiLy" Type="nvarchar" MaxLength="30" />
+          <Property Name="TenChuDaiLy" Type="nvarchar" MaxLength="30" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+          <Property Name="SoDienThoai" Type="int" />
+        </EntityType>
+        <EntityType Name="tHOADON">
+          <Key>
+            <PropertyRef Name="MaHD" />
+          </Key>
+          <Property Name="MaHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaDaiLy" Type="int" />
+          <Property Name="NgayLapHoaDon" Type="date" />
+        </EntityType>
+        <EntityType Name="tNHAXUATBAN">
+          <Key>
+            <PropertyRef Name="MaNhaXuatBan" />
+          </Key>
+          <Property Name="MaNhaXuatBan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenNhaXuatBan" Type="nvarchar" MaxLength="30" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
+          <Property Name="SoDienThoai" Type="int" />
+        </EntityType>
+        <EntityType Name="tSACH">
+          <Key>
+            <PropertyRef Name="MaSach" />
+          </Key>
+          <Property Name="MaSach" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenSach" Type="nvarchar" MaxLength="30" />
+          <Property Name="TenTacGia" Type="nvarchar" MaxLength="30" />
+          <Property Name="GiaBia" Type="float" />
+          <Property Name="GiaBanChoDaiLy" Type="float" />
+          <Property Name="MaNhaXuatBan" Type="int" />
+          <Property Name="SoTrang" Type="int" />
+        </EntityType>
+        <Association Name="fk_CTHD_MaHDNhap">
+          <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="1" />
+          <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHOADON">
+              <PropertyRef Name="MaHD" />
+            </Principal>
+            <Dependent Role="tCTHD">
+              <PropertyRef Name="MaHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CTHD_MaSach">
+          <End Role="tSACH" Type="Self.tSACH" Multiplicity="1" />
+          <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tSACH">
+              <PropertyRef Name="MaSach" />
+            </Principal>
+            <Dependent Role="tCTHD">
+              <PropertyRef Name="MaSach" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tHOADON_MaDaiLy">
+          <End Role="tDAILY" Type="Self.tDAILY" Multiplicity="0..1" />
+          <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDAILY">
+              <PropertyRef Name="MaDaiLy" />
+            </Principal>
+            <Dependent Role="tHOADON">
+              <PropertyRef Name="MaDaiLy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tSACH_MaNXB">
+          <End Role="tNHAXUATBAN" Type="Self.tNHAXUATBAN" Multiplicity="0..1" />
+          <End Role="tSACH" Type="Self.tSACH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNHAXUATBAN">
+              <PropertyRef Name="MaNhaXuatBan" />
+            </Principal>
+            <Dependent Role="tSACH">
+              <PropertyRef Name="MaNhaXuatBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLYSACHNEWModelStoreContainer">
+          <EntitySet Name="tCTHD" EntityType="Self.tCTHD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tDAILY" EntityType="Self.tDAILY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tHOADON" EntityType="Self.tHOADON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tNHAXUATBAN" EntityType="Self.tNHAXUATBAN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tSACH" EntityType="Self.tSACH" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_CTHD_MaHDNhap" Association="Self.fk_CTHD_MaHDNhap">
+            <End Role="tHOADON" EntitySet="tHOADON" />
+            <End Role="tCTHD" EntitySet="tCTHD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CTHD_MaSach" Association="Self.fk_CTHD_MaSach">
+            <End Role="tSACH" EntitySet="tSACH" />
+            <End Role="tCTHD" EntitySet="tCTHD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tHOADON_MaDaiLy" Association="Self.fk_tHOADON_MaDaiLy">
+            <End Role="tDAILY" EntitySet="tDAILY" />
+            <End Role="tHOADON" EntitySet="tHOADON" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tSACH_MaNXB" Association="Self.fk_tSACH_MaNXB">
+            <End Role="tNHAXUATBAN" EntitySet="tNHAXUATBAN" />
+            <End Role="tSACH" EntitySet="tSACH" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QLYSACHNEWModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tCTHD">
+          <Key>
+            <PropertyRef Name="MaHD" />
+            <PropertyRef Name="MaSach" />
+          </Key>
+          <Property Name="MaHD" Type="Int32" Nullable="false" />
+          <Property Name="MaSach" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="GhiChu" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tHOADON" Relationship="Self.fk_CTHD_MaHDNhap" FromRole="tCTHD" ToRole="tHOADON" />
+          <NavigationProperty Name="tSACH" Relationship="Self.fk_CTHD_MaSach" FromRole="tCTHD" ToRole="tSACH" />
+        </EntityType>
+        <EntityType Name="tDAILY">
+          <Key>
+            <PropertyRef Name="MaDaiLy" />
+          </Key>
+          <Property Name="MaDaiLy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenDaiLy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="TenChuDaiLy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SoDienThoai" Type="Int32" />
+          <NavigationProperty Name="tHOADONs" Relationship="Self.fk_tHOADON_MaDaiLy" FromRole="tDAILY" ToRole="tHOADON" />
+        </EntityType>
+        <EntityType Name="tHOADON">
+          <Key>
+            <PropertyRef Name="MaHD" />
+          </Key>
+          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaDaiLy" Type="Int32" />
+          <Property Name="NgayLapHoaDon" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tCTHDs" Relationship="Self.fk_CTHD_MaHDNhap" FromRole="tHOADON" ToRole="tCTHD" />
+          <NavigationProperty Name="tDAILY" Relationship="Self.fk_tHOADON_MaDaiLy" FromRole="tHOADON" ToRole="tDAILY" />
+        </EntityType>
+        <EntityType Name="tNHAXUATBAN">
+          <Key>
+            <PropertyRef Name="MaNhaXuatBan" />
+          </Key>
+          <Property Name="MaNhaXuatBan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenNhaXuatBan" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SoDienThoai" Type="Int32" />
+          <NavigationProperty Name="tSACHes" Relationship="Self.fk_tSACH_MaNXB" FromRole="tNHAXUATBAN" ToRole="tSACH" />
+        </EntityType>
+        <EntityType Name="tSACH">
+          <Key>
+            <PropertyRef Name="MaSach" />
+          </Key>
+          <Property Name="MaSach" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenSach" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="TenTacGia" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="GiaBia" Type="Double" />
+          <Property Name="GiaBanChoDaiLy" Type="Double" />
+          <Property Name="MaNhaXuatBan" Type="Int32" />
+          <Property Name="SoTrang" Type="Int32" />
+          <NavigationProperty Name="tCTHDs" Relationship="Self.fk_CTHD_MaSach" FromRole="tSACH" ToRole="tCTHD" />
+          <NavigationProperty Name="tNHAXUATBAN" Relationship="Self.fk_tSACH_MaNXB" FromRole="tSACH" ToRole="tNHAXUATBAN" />
+        </EntityType>
+        <Association Name="fk_CTHD_MaHDNhap">
+          <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="1" />
+          <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tHOADON">
+              <PropertyRef Name="MaHD" />
+            </Principal>
+            <Dependent Role="tCTHD">
+              <PropertyRef Name="MaHD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CTHD_MaSach">
+          <End Role="tSACH" Type="Self.tSACH" Multiplicity="1" />
+          <End Role="tCTHD" Type="Self.tCTHD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tSACH">
+              <PropertyRef Name="MaSach" />
+            </Principal>
+            <Dependent Role="tCTHD">
+              <PropertyRef Name="MaSach" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tHOADON_MaDaiLy">
+          <End Role="tDAILY" Type="Self.tDAILY" Multiplicity="0..1" />
+          <End Role="tHOADON" Type="Self.tHOADON" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDAILY">
+              <PropertyRef Name="MaDaiLy" />
+            </Principal>
+            <Dependent Role="tHOADON">
+              <PropertyRef Name="MaDaiLy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tSACH_MaNXB">
+          <End Role="tNHAXUATBAN" Type="Self.tNHAXUATBAN" Multiplicity="0..1" />
+          <End Role="tSACH" Type="Self.tSACH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNHAXUATBAN">
+              <PropertyRef Name="MaNhaXuatBan" />
+            </Principal>
+            <Dependent Role="tSACH">
+              <PropertyRef Name="MaNhaXuatBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLYSACHNEWEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tCTHDs" EntityType="Self.tCTHD" />
+          <EntitySet Name="tDAILies" EntityType="Self.tDAILY" />
+          <EntitySet Name="tHOADONs" EntityType="Self.tHOADON" />
+          <EntitySet Name="tNHAXUATBANs" EntityType="Self.tNHAXUATBAN" />
+          <EntitySet Name="tSACHes" EntityType="Self.tSACH" />
+          <AssociationSet Name="fk_CTHD_MaHDNhap" Association="Self.fk_CTHD_MaHDNhap">
+            <End Role="tHOADON" EntitySet="tHOADONs" />
+            <End Role="tCTHD" EntitySet="tCTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CTHD_MaSach" Association="Self.fk_CTHD_MaSach">
+            <End Role="tSACH" EntitySet="tSACHes" />
+            <End Role="tCTHD" EntitySet="tCTHDs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tHOADON_MaDaiLy" Association="Self.fk_tHOADON_MaDaiLy">
+            <End Role="tDAILY" EntitySet="tDAILies" />
+            <End Role="tHOADON" EntitySet="tHOADONs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tSACH_MaNXB" Association="Self.fk_tSACH_MaNXB">
+            <End Role="tNHAXUATBAN" EntitySet="tNHAXUATBANs" />
+            <End Role="tSACH" EntitySet="tSACHes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QLYSACHNEWModelStoreContainer" CdmEntityContainer="QLYSACHNEWEntities">
+          <EntitySetMapping Name="tCTHDs">
+            <EntityTypeMapping TypeName="QLYSACHNEWModel.tCTHD">
+              <MappingFragment StoreEntitySet="tCTHD">
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="MaSach" ColumnName="MaSach" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tDAILies">
+            <EntityTypeMapping TypeName="QLYSACHNEWModel.tDAILY">
+              <MappingFragment StoreEntitySet="tDAILY">
+                <ScalarProperty Name="MaDaiLy" ColumnName="MaDaiLy" />
+                <ScalarProperty Name="TenDaiLy" ColumnName="TenDaiLy" />
+                <ScalarProperty Name="TenChuDaiLy" ColumnName="TenChuDaiLy" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tHOADONs">
+            <EntityTypeMapping TypeName="QLYSACHNEWModel.tHOADON">
+              <MappingFragment StoreEntitySet="tHOADON">
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="MaDaiLy" ColumnName="MaDaiLy" />
+                <ScalarProperty Name="NgayLapHoaDon" ColumnName="NgayLapHoaDon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tNHAXUATBANs">
+            <EntityTypeMapping TypeName="QLYSACHNEWModel.tNHAXUATBAN">
+              <MappingFragment StoreEntitySet="tNHAXUATBAN">
+                <ScalarProperty Name="MaNhaXuatBan" ColumnName="MaNhaXuatBan" />
+                <ScalarProperty Name="TenNhaXuatBan" ColumnName="TenNhaXuatBan" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tSACHes">
+            <EntityTypeMapping TypeName="QLYSACHNEWModel.tSACH">
+              <MappingFragment StoreEntitySet="tSACH">
+                <ScalarProperty Name="MaSach" ColumnName="MaSach" />
+                <ScalarProperty Name="TenSach" ColumnName="TenSach" />
+                <ScalarProperty Name="TenTacGia" ColumnName="TenTacGia" />
+                <ScalarProperty Name="GiaBia" ColumnName="GiaBia" />
+                <ScalarProperty Name="GiaBanChoDaiLy" ColumnName="GiaBanChoDaiLy" />
+                <ScalarProperty Name="MaNhaXuatBan" ColumnName="MaNhaXuatBan" />
+                <ScalarProperty Name="SoTrang" ColumnName="SoTrang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
